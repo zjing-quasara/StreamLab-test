@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在播放 - StreamLab</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .player-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            background: #111;
+        }
+        
+        .video-wrapper video,
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .controls-bar {
+            background: #111;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .video-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .episode-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 20px;
+            background: #0a0a0f;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .episode-btn {
+            padding: 10px 20px;
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .episode-btn:hover {
+            background: #2a2a4e;
+            border-color: #00d4ff;
+        }
+        
+        .episode-btn.active {
+            background: linear-gradient(135deg, #00d4ff, #c471ed);
+            border-color: transparent;
+        }
+        
+        .source-tabs {
+            display: flex;
+            gap: 10px;
+            padding: 15px 20px;
+            background: #0a0a0f;
+            border-bottom: 1px solid #222;
+            overflow-x: auto;
+        }
+        
+        .source-tab {
+            padding: 8px 20px;
+            background: #1a1a2e;
+            border: none;
+            border-radius: 20px;
+            color: #888;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .source-tab.active {
+            background: #00d4ff;
+            color: #000;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid #333;
+            border-radius: 20px;
+            color: #fff;
+            text-decoration: none;
+            z-index: 100;
+        }
+        
+        .back-btn:hover { border-color: #00d4ff; }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .loading::before {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px;
+            border: 3px solid #333;
+            border-top-color: #00d4ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <a href="/search" class="back-btn">← 返回搜索</a>
+    
+    <div class="player-container">
+        <div class="video-wrapper" id="videoWrapper">
+            <div class="loading" id="loading">加载中...</div>
+        </div>
+        
+        <div class="controls-bar">
+            <div class="video-title" id="videoTitle">加载中...</div>
+        </div>
+        
+        <div class="source-tabs" id="sourceTabs"></div>
+        <div class="episode-list" id="episodeList"></div>
+    </div>
+    
+    <script>
+        // 获取URL参数
+        const params = new URLSearchParams(window.location.search);
+        const videoName = decodeURIComponent(params.get('name') || '');
+        const playUrlEncoded = params.get('url') || '';
+        const playUrl = decodeURIComponent(playUrlEncoded);
+        
+        document.getElementById('videoTitle').textContent = videoName;
+        document.title = videoName + ' - StreamLab';
+        
+        let currentSourceIndex = 0;
+        let sources = [];
+        let episodes = [];
+        let hls = null;
+        
+        // 解析播放地址
+        // 格式: "线路1$url1$$$线路2$url2" 或 "第1集$url1#第2集$url2"
+        function parsePlayUrl(url) {
+            if (!url) return [];
+            
+            // 多线路格式
+            if (url.includes('$$$')) {
+                return url.split('$$$').map(source => {
+                    const parts = source.split('$');
+                    const name = parts[0] || '默认';
+                    const episodes = parts.slice(1).join('$');
+                    return { name, episodes };
+                });
+            }
+            
+            // 单线路多集格式
+            return [{ name: '默认线路', episodes: url }];
+        }
+        
+        function parseEpisodes(episodeStr) {
+            if (!episodeStr) return [];
+            
+            return episodeStr.split('#').filter(Boolean).map(ep => {
+                const parts = ep.split('$');
+                return {
+                    name: parts[0] || '播放',
+                    url: parts[1] || parts[0]
+                };
+            });
+        }
+        
+        function init() {
+            sources = parsePlayUrl(playUrl);
+            
+            if (sources.length === 0) {
+                document.getElementById('loading').textContent = '无播放源';
+                return;
+            }
+            
+            // 渲染线路选项
+            renderSources();
+            
+            // 选择第一个线路
+            selectSource(0);
+        }
+        
+        function renderSources() {
+            const tabs = document.getElementById('sourceTabs');
+            tabs.innerHTML = sources.map((s, i) => `
+                <button class="source-tab ${i === 0 ? 'active' : ''}" onclick="selectSource(${i})">${s.name}</button>
+            `).join('');
+        }
+        
+        function selectSource(index) {
+            currentSourceIndex = index;
+            
+            // 更新选中状态
+            document.querySelectorAll('.source-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            
+            // 解析该线路的剧集
+            episodes = parseEpisodes(sources[index].episodes);
+            renderEpisodes();
+            
+            // 播放第一集
+            if (episodes.length > 0) {
+                playEpisode(0);
+            }
+        }
+        
+        function renderEpisodes() {
+            const list = document.getElementById('episodeList');
+            list.innerHTML = episodes.map((ep, i) => `
+                <button class="episode-btn ${i === 0 ? 'active' : ''}" onclick="playEpisode(${i})">${ep.name}</button>
+            `).join('');
+        }
+        
+        function playEpisode(index) {
+            const episode = episodes[index];
+            if (!episode) return;
+            
+            // 更新选中状态
+            document.querySelectorAll('.episode-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            
+            const url = episode.url;
+            const wrapper = document.getElementById('videoWrapper');
+            
+            // 清理旧的播放器
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+            wrapper.innerHTML = '<div class="loading" id="loading">加载中...</div>';
+            
+            // 判断URL类型
+            if (url.includes('.m3u8')) {
+                // HLS流
+                playHls(url);
+            } else if (url.includes('.mp4') || url.includes('.flv')) {
+                // 直接视频
+                playDirect(url);
+            } else {
+                // 可能是需要解析的页面，使用iframe
+                playWithIframe(url);
+            }
+        }
+        
+        function playHls(url) {
+            const wrapper = document.getElementById('videoWrapper');
+            const video = document.createElement('video');
+            video.controls = true;
+            video.autoplay = true;
+            video.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+            wrapper.innerHTML = '';
+            wrapper.appendChild(video);
+            
+            if (Hls.isSupported()) {
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+                hls.on(Hls.Events.ERROR, (e, data) => {
+                    if (data.fatal) {
+                        wrapper.innerHTML = '<div class="loading">播放失败，尝试其他线路</div>';
+                    }
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.play();
+            }
+        }
+        
+        function playDirect(url) {
+            const wrapper = document.getElementById('videoWrapper');
+            wrapper.innerHTML = `
+                <video controls autoplay style="position:absolute;top:0;left:0;width:100%;height:100%;">
+                    <source src="${url}" type="video/mp4">
+                </video>
+            `;
+        }
+        
+        function playWithIframe(url) {
+            // 使用解析接口
+            const jxUrl = 'https://jx.xmflv.com/?url=' + encodeURIComponent(url);
+            const wrapper = document.getElementById('videoWrapper');
+            wrapper.innerHTML = `
+                <iframe src="${jxUrl}" allowfullscreen allow="autoplay; fullscreen" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;"></iframe>
+            `;
+        }
+        
+        init();
+    </script>
+</body>
+</html>
+

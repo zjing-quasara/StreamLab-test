@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流媒体技术研究 - 学习项目</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部搜索栏 -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">StreamLab</span>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="输入: B站链接 / 影视名称 / 视频URL(.m3u8/.mp4)">
+                <button id="searchBtn" class="btn-primary">
+                    <span>搜索</span>
+                </button>
+            </div>
+            <div class="header-actions">
+                <button id="themeToggle" class="btn-icon" title="切换主题">🌙</button>
+            </div>
+        </header>
+
+        <!-- 主要内容区 -->
+        <main class="main-content">
+            <!-- 播放器区域 -->
+            <div class="player-section">
+                <div class="player-wrapper" id="playerWrapper">
+                    <!-- 视频容器 -->
+                    <div class="video-container">
+                        <video id="videoPlayer" playsinline></video>
+                        <!-- 弹幕层 -->
+                        <canvas id="danmakuCanvas" class="danmaku-layer"></canvas>
+                        <!-- 加载提示 -->
+                        <div class="loading-overlay" id="loadingOverlay">
+                            <div class="loading-spinner"></div>
+                            <p id="loadingText">等待输入视频链接...</p>
+                        </div>
+                        <!-- 控制栏 -->
+                        <div class="controls-overlay" id="controlsOverlay">
+                            <div class="progress-bar" id="progressBar">
+                                <div class="progress-buffered" id="progressBuffered"></div>
+                                <div class="progress-played" id="progressPlayed"></div>
+                                <div class="progress-thumb" id="progressThumb"></div>
+                            </div>
+                            <div class="controls-bottom">
+                                <div class="controls-left">
+                                    <button id="playBtn" class="ctrl-btn">▶</button>
+                                    <div class="volume-control">
+                                        <button id="volumeBtn" class="ctrl-btn">🔊</button>
+                                        <input type="range" id="volumeSlider" min="0" max="100" value="80">
+                                    </div>
+                                    <span class="time-display">
+                                        <span id="currentTime">00:00</span>
+                                        <span>/</span>
+                                        <span id="totalTime">00:00</span>
+                                    </span>
+                                </div>
+                                <div class="controls-right">
+                                    <button id="danmakuToggle" class="ctrl-btn active" title="弹幕开关">💬</button>
+                                    <select id="qualitySelect" class="quality-select">
+                                        <option value="80">1080P</option>
+                                        <option value="64">720P</option>
+                                        <option value="32">480P</option>
+                                        <option value="16">360P</option>
+                                    </select>
+                                    <button id="fullscreenBtn" class="ctrl-btn" title="全屏">⛶</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 视频信息 -->
+                <div class="video-info" id="videoInfo">
+                    <div class="info-placeholder">
+                        <p>支持多种输入方式:</p>
+                        <p class="hint">
+                            1. 影视名称搜索 (内置测试数据)<br>
+                            2. B站视频: BV号或链接<br>
+                            3. 直接URL: .m3u8 / .mp4
+                        </p>
+                        <div class="test-links">
+                            <p style="margin-top:15px;color:var(--primary);">快速测试 (点击搜索):</p>
+                            <button class="test-btn" onclick="document.getElementById('searchInput').value='测试';document.getElementById('searchBtn').click()">测试视频</button>
+                            <button class="test-btn" onclick="document.getElementById('searchInput').value='长安';document.getElementById('searchBtn').click()">长安十二时辰</button>
+                            <button class="test-btn" onclick="document.getElementById('searchInput').value='唐探';document.getElementById('searchBtn').click()">唐探1900</button>
+                            <button class="test-btn" onclick="document.getElementById('searchInput').value='BV1GJ411x7h7';document.getElementById('searchBtn').click()">B站视频</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <!-- 弹幕设置 -->
+                <div class="panel danmaku-settings">
+                    <h3 class="panel-title">弹幕设置</h3>
+                    <div class="setting-item">
+                        <label>透明度</label>
+                        <input type="range" id="danmakuOpacity" min="0" max="100" value="80">
+                        <span id="opacityValue">80%</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>弹幕速度</label>
+                        <input type="range" id="danmakuSpeed" min="50" max="200" value="100">
+                        <span id="speedValue">1.0x</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>字体大小</label>
+                        <input type="range" id="danmakuSize" min="12" max="36" value="24">
+                        <span id="sizeValue">24px</span>
+                    </div>
+                    <div class="setting-item">
+                        <label>显示区域</label>
+                        <select id="danmakuArea">
+                            <option value="1">全屏</option>
+                            <option value="0.75">3/4屏</option>
+                            <option value="0.5" selected>半屏</option>
+                            <option value="0.25">1/4屏</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 分P列表 -->
+                <div class="panel episode-list" id="episodePanel" style="display: none;">
+                    <h3 class="panel-title">分P列表</h3>
+                    <div class="episode-container" id="episodeList"></div>
+                </div>
+
+                <!-- 统计信息 -->
+                <div class="panel stats-panel" id="statsPanel" style="display: none;">
+                    <h3 class="panel-title">视频数据</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-value" id="statViews">-</span>
+                            <span class="stat-label">播放</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="statDanmaku">-</span>
+                            <span class="stat-label">弹幕</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="statLikes">-</span>
+                            <span class="stat-label">点赞</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value" id="statCoins">-</span>
+                            <span class="stat-label">投币</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 消息提示 -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="/static/js/danmaku.js"></script>
+    <script src="/static/js/player.js"></script>
+</body>
+</html>
+

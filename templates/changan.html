@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>长安十二时辰 - StreamLab</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Microsoft YaHei', sans-serif; background: #0a0a0f; color: #fff; min-height: 100vh; }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 15px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .title { font-size: 22px; background: linear-gradient(135deg, #00d4ff, #c471ed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .main { display: flex; max-width: 1400px; margin: 0 auto; padding: 20px; gap: 20px; }
+        .player-area { flex: 1; }
+        .video-container { position: relative; width: 100%; background: #000; border-radius: 12px; overflow: hidden; }
+        video { width: 100%; display: block; }
+        .info { margin-top: 15px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .info h2 { font-size: 18px; margin-bottom: 8px; }
+        .info p { color: #888; font-size: 13px; line-height: 1.6; }
+        .sidebar { width: 300px; }
+        .panel { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+        .panel-title { font-size: 14px; color: #888; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #222; }
+        .episodes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; max-height: 400px; overflow-y: auto; }
+        .ep-btn {
+            padding: 10px 5px; background: #1a1a2e; border: 1px solid #333; border-radius: 6px;
+            color: #fff; font-size: 13px; cursor: pointer; transition: all 0.2s;
+        }
+        .ep-btn:hover { border-color: #00d4ff; background: #252550; }
+        .ep-btn.active { background: linear-gradient(135deg, #00d4ff, #c471ed); color: #000; border: none; font-weight: bold; }
+        .status { text-align: center; padding: 20px; color: #00d4ff; }
+        .loading { display: inline-block; width: 20px; height: 20px; border: 2px solid #333; border-top-color: #00d4ff; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px; vertical-align: middle; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .quality { display: flex; gap: 8px; margin-top: 10px; }
+        .quality span { padding: 4px 12px; background: #00d4ff; color: #000; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">StreamLab - 长安十二时辰</div>
+        <a href="/" style="color:#888;text-decoration:none;">返回首页</a>
+    </div>
+    
+    <div class="main">
+        <div class="player-area">
+            <div class="video-container">
+                <video id="video" controls></video>
+            </div>
+            <div class="status" id="status"><span class="loading"></span>正在加载...</div>
+            <div class="info">
+                <h2>长安十二时辰 <span id="currentEp">第1集</span></h2>
+                <p>唐朝上元节前夕，长安城陷入危局，死囚张小敬临危受命，与李必携手在十二时辰内拯救长安。</p>
+                <div class="quality"><span>1080P</span><span>m3u8</span><span>48集全</span></div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="panel">
+                <div class="panel-title">选集播放 (共48集)</div>
+                <div class="episodes" id="episodes"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 48集m3u8链接
+        const episodes = [
+            {name: '第1集', url: 'https://hn.bfvvs.com/play/DbDkGqYa/index.m3u8'},
+            {name: '第2集', url: 'https://hn.bfvvs.com/play/1aKrP8ze/index.m3u8'},
+            {name: '第3集', url: 'https://hn.bfvvs.com/play/5eVO4v9a/index.m3u8'},
+            {name: '第4集', url: 'https://hn.bfvvs.com/play/QeZ6k8Ee/index.m3u8'},
+            {name: '第5集', url: 'https://hn.bfvvs.com/play/Rb4xl60b/index.m3u8'},
+            {name: '第6集', url: 'https://hn.bfvvs.com/play/yb82p35e/index.m3u8'},
+            {name: '第7集', url: 'https://hn.bfvvs.com/play/lejREYze/index.m3u8'},
+            {name: '第8集', url: 'https://hn.bfvvs.com/play/pen5LRDd/index.m3u8'},
+            {name: '第9集', url: 'https://hn.bfvvs.com/play/YerkPmka/index.m3u8'},
+            {name: '第10集', url: 'https://hn.bfvvs.com/play/PdyPZ9wb/index.m3u8'},
+            {name: '第11集', url: 'https://hn.bfvvs.com/play/DbDkGQYa/index.m3u8'},
+            {name: '第12集', url: 'https://hn.bfvvs.com/play/1aKrPLze/index.m3u8'},
+            {name: '第13集', url: 'https://hn.bfvvs.com/play/YaOYWPGd/index.m3u8'},
+            {name: '第14集', url: 'https://hn.bfvvs.com/play/5eVO479a/index.m3u8'},
+            {name: '第15集', url: 'https://hn.bfvvs.com/play/QeZ6kzEe/index.m3u8'},
+            {name: '第16集', url: 'https://hn.bfvvs.com/play/yb82pM5e/index.m3u8'},
+            {name: '第17集', url: 'https://hn.bfvvs.com/play/lejRE0ze/index.m3u8'},
+            {name: '第18集', url: 'https://hn.bfvvs.com/play/pen5LgDd/index.m3u8'},
+            {name: '第19集', url: 'https://hn.bfvvs.com/play/YerkP9ka/index.m3u8'},
+            {name: '第20集', url: 'https://hn.bfvvs.com/play/lejRE8Ye/index.m3u8'},
+            {name: '第21集', url: 'https://hn.bfvvs.com/play/pen5LOYd/index.m3u8'},
+            {name: '第22集', url: 'https://hn.bfvvs.com/play/PdyPZXzb/index.m3u8'},
+            {name: '第23集', url: 'https://hn.bfvvs.com/play/DbDkG8Aa/index.m3u8'},
+            {name: '第24集', url: 'https://hn.bfvvs.com/play/1aKrPQle/index.m3u8'},
+            {name: '第25集', url: 'https://hn.bfvvs.com/play/5eVO4QBa/index.m3u8'},
+            {name: '第26集', url: 'https://hn.bfvvs.com/play/QeZ6k02e/index.m3u8'},
+            {name: '第27集', url: 'https://hn.bfvvs.com/play/Rb4xlLgb/index.m3u8'},
+            {name: '第28集', url: 'https://hn.bfvvs.com/play/yb82p92e/index.m3u8'},
+            {name: '第29集', url: 'https://hn.bfvvs.com/play/lejREnYe/index.m3u8'},
+            {name: '第30集', url: 'https://hn.bfvvs.com/play/pen5LzYd/index.m3u8'},
+            {name: '第31集', url: 'https://hn.bfvvs.com/play/YerkPYBa/index.m3u8'},
+            {name: '第32集', url: 'https://hn.bfvvs.com/play/PdyPZmzb/index.m3u8'},
+            {name: '第33集', url: 'https://hn.bfvvs.com/play/DbDkG0Aa/index.m3u8'},
+            {name: '第34集', url: 'https://hn.bfvvs.com/play/1aKrP6le/index.m3u8'},
+            {name: '第35集', url: 'https://hn.bfvvs.com/play/YaOYWZBd/index.m3u8'},
+            {name: '第36集', url: 'https://hn.bfvvs.com/play/5eVO4NBa/index.m3u8'},
+            {name: '第37集', url: 'https://hn.bfvvs.com/play/Rb4xl9gb/index.m3u8'},
+            {name: '第38集', url: 'https://hn.bfvvs.com/play/yb82po2e/index.m3u8'},
+            {name: '第39集', url: 'https://hn.bfvvs.com/play/pen5LYYd/index.m3u8'},
+            {name: '第40集', url: 'https://hn.bfvvs.com/play/lejREvBe/index.m3u8'},
+            {name: '第41集', url: 'https://hn.bfvvs.com/play/YerkPEWa/index.m3u8'},
+            {name: '第42集', url: 'https://hn.bfvvs.com/play/DbDkGY5a/index.m3u8'},
+            {name: '第43集', url: 'https://hn.bfvvs.com/play/5eVO4JOa/index.m3u8'},
+            {name: '第44集', url: 'https://hn.bfvvs.com/play/Rb4xlWkb/index.m3u8'},
+            {name: '第45集', url: 'https://hn.bfvvs.com/play/lejREABe/index.m3u8'},
+            {name: '第46集', url: 'https://hn.bfvvs.com/play/pen5LGPd/index.m3u8'},
+            {name: '第47集', url: 'https://hn.bfvvs.com/play/DbDkGw5a/index.m3u8'},
+            {name: '第48集', url: 'https://hn.bfvvs.com/play/YaOYWJQd/index.m3u8'},
+        ];
+        
+        let currentEp = 0;
+        let hls = null;
+        const video = document.getElementById('video');
+        const status = document.getElementById('status');
+        
+        function renderEpisodes() {
+            const container = document.getElementById('episodes');
+            container.innerHTML = episodes.map((ep, i) => 
+                `<button class="ep-btn ${i === currentEp ? 'active' : ''}" onclick="playEp(${i})">${i + 1}</button>`
+            ).join('');
+        }
+        
+        function playEp(index) {
+            currentEp = index;
+            renderEpisodes();
+            document.getElementById('currentEp').textContent = episodes[index].name;
+            loadVideo(episodes[index].url);
+        }
+        
+        function loadVideo(url) {
+            status.innerHTML = '<span class="loading"></span>正在加载...';
+            status.style.display = 'block';
+            
+            if (hls) {
+                hls.destroy();
+            }
+            
+            if (Hls.isSupported()) {
+                hls = new Hls({
+                    maxBufferLength: 30,
+                    maxMaxBufferLength: 60,
+                });
+                
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    status.innerHTML = '✓ 加载成功，点击播放';
+                    status.style.color = '#4caf50';
+                    video.play().catch(() => {});
+                });
+                
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    if (data.fatal) {
+                        status.innerHTML = '✗ 加载失败: ' + data.type;
+                        status.style.color = '#f44336';
+                    }
+                });
+                
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', () => {
+                    status.style.display = 'none';
+                    video.play();
+                });
+            }
+        }
+        
+        video.addEventListener('playing', () => {
+            status.style.display = 'none';
+        });
+        
+        // 初始化
+        renderEpisodes();
+        playEp(0);
+    </script>
+</body>
+</html>

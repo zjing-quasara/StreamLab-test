@@ -1,0 +1,18 @@
+{
+  "name": "StreamLab",
+  "appid": "__UNI__STREAMLAB",
+  "description": "流媒体技术研究",
+  "versionName": "1.0.0",
+  "versionCode": 100,
+  "app-plus": {
+    "modules": {},
+    "distribute": {
+      "android": {
+        "permissions": [
+          "<uses-permission android:name=\"android.permission.INTERNET\"/>"
+        ]
+      }
+    }
+  }
+}
+

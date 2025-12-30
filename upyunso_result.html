@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>长安</title>
+  <meta name="keywords" content="长安,长安 在线观看,长安 资源,长安 下载,长安 网盘,UP云搜,网盘搜索,网盘资源搜索,阿里网盘资源搜索,夸克网盘搜索"/>
+  <meta name="description" content="长安 资源在线观看下载，最新长安资源,UP云搜 聚合网盘搜索神器，提供 阿里云盘、夸克网盘、百度网盘、蓝奏网盘、迅雷网盘、天翼网盘、彩和网盘 等网盘资源搜索。更新快、资源全、速度快、免费。"/>
+  <link rel="shortcut icon" href="https://www.upyunso.com/static/favicon.ico" type="image/x-icon" />
+  <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,600&display=swap">-->
+  <link rel="stylesheet" href="https://www.upyunso.com/static/search.css?v=1.2.5">
+  <script src="https://www.upyunso.com/static/user.js?v=1.2.7"></script>
+  <!-- Google tag (gtag.js) -->
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?355e956568b935244efaccd9c2245e06";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    <style>
+      .pagination {
+        text-align: center;
+        padding: 20px 0;
+      }
+      .page-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        margin: 0 5px;
+        background-color: #8a76ff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .page-btn:hover {
+        background-color: #705dd1;
+      }
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .loading-spinner {
+        border: 8px solid rgba(0, 0, 0, 0.1);
+        border-top-color: #8a76ff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+</head>
+<body>
+  <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background-image: url('https://www.upyunso.com/static/bg.png'); background-size: cover; background-position: center; backdrop-filter: blur(5px); opacity: 0.8;"></div>
+  <div id="top-right-auth"></div>
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div class="container" style="padding-top: 70px;">
+    <div class="search-header">
+      <div class="logo-title">
+        <a href="/" style="text-decoration: none; color: inherit;">
+          <img src="https://www.upyunso.com/static/upso_logo.png" alt="logo">
+          <h1><span>UP云搜</span><span class="pro-badge">Pro+</span></h1>
+        </a>
+      </div>
+      <form class="search-box" action="/search" method="get">
+        <div class="search-box-inner">
+          <input type="text" name="keyword" placeholder="输入搜索关键词…" aria-label="搜索关键词" value="长安" style="width: 100%;">
+          <div class="search-buttons">
+            <button formaction="/search_doc" type="submit"  id="search-doc-btn" class="search-btn doc-btn">搜文档</button>
+            <span class="separator">|</span>
+            <button formaction="/search" type="submit" id="search-pan-btn" class="search-btn pan-btn">搜网盘</button>
+          </div>
+        </div>
+      </form>
+      <div class="tags">
+        
+
+  
+      </div>
+    </div>
+
+    <div class="results-main-container">
+      <div class="source-filters">
+        <!-- <div class="filters-title-wrapper">
+          <div class="filters-title">来源</div>
+        </div> -->
+        <div class="filters">
+            
+              <a href="/search?keyword=长安&pan_channel=all" class="filter-btn active">
+                
+                  全部来源
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=kuake" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="夸克云盘">
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=baidu" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/baidu.png" alt="百度云盘">
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=ali" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/ali.png" alt="阿里云盘">
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=lanzou" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/lanzou.png" alt="蓝奏云盘">
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=xunlei" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/xunlei.png" alt="迅雷云盘">
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=tianyi" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/tianyi.png" alt="天翼云盘">
+                
+              </a>
+            
+              <a href="/search?keyword=长安&pan_channel=caihe" class="filter-btn ">
+                
+                  <img src="https://www.upyunso.com/static/pan_icon/caihe.png" alt="彩和云盘">
+                
+              </a>
+            
+        </div>
+      </div>
+
+      
+        <div class="search-results-list">
+          
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">1、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72ee8a2be2f53603c19c6c6bd8081d1e24d4dd901b8010885b5e632b1a99dfc37e46ce3832810a22a7e11825ddcd33fc2d1', 'open')">长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝长安的荔枝</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-11-11</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/xunlei.png" alt="xunlei" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72ee8a2be2f53603c19c6c6bd8081d1e24d4dd901b8010885b5e632b1a99dfc37e46ce3832810a22a7e11825ddcd33fc2d1', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72ee8a2be2f53603c19c6c6bd8081d1e24d4dd901b8010885b5e632b1a99dfc37e46ce3832810a22a7e11825ddcd33fc2d1', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">2、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350dda2e50b229a9144178978380ff9b759bb65bf683477c240c000b39cdb73f496af', 'open')">回望长安回望长安.ts</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2023-11-10</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/ali.png" alt="ali" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350dda2e50b229a9144178978380ff9b759bb65bf683477c240c000b39cdb73f496af', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350dda2e50b229a9144178978380ff9b759bb65bf683477c240c000b39cdb73f496af', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">3、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350dd210cd6cca1bff3e52959be415f475501353e8681c4f32e77534ef10c783df11b', 'open')">长安三万里长安三万里</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-07-31</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/ali.png" alt="ali" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350dd210cd6cca1bff3e52959be415f475501353e8681c4f32e77534ef10c783df11b', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350dd210cd6cca1bff3e52959be415f475501353e8681c4f32e77534ef10c783df11b', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">4、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('6891846b8a5fdf98398f70f3624cf31e0c80c6f6445dfe32ecbbd711e753ab35d9d64db977ab2b230dc06c3fec65f7852352e5d6ace803e96e63edc47ce918e6', 'open')">长安24J</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-13</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/baidu.png" alt="baidu" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('6891846b8a5fdf98398f70f3624cf31e0c80c6f6445dfe32ecbbd711e753ab35d9d64db977ab2b230dc06c3fec65f7852352e5d6ace803e96e63edc47ce918e6', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('6891846b8a5fdf98398f70f3624cf31e0c80c6f6445dfe32ecbbd711e753ab35d9d64db977ab2b230dc06c3fec65f7852352e5d6ace803e96e63edc47ce918e6', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">5、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6b7956f8f4d100898d30d443412c6c1c48d96d84857c6babbe8b81a2353c988c3', 'open')">弃长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-11-23</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6b7956f8f4d100898d30d443412c6c1c48d96d84857c6babbe8b81a2353c988c3', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6b7956f8f4d100898d30d443412c6c1c48d96d84857c6babbe8b81a2353c988c3', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">6、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72e233dca4e1201fc86a5333fa5aab0ed1a7c37914a2061847d8a00bdddfacb336a29ac0d21413427354640d35479127760', 'open')">弃长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-08-06</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/xunlei.png" alt="xunlei" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72e233dca4e1201fc86a5333fa5aab0ed1a7c37914a2061847d8a00bdddfacb336a29ac0d21413427354640d35479127760', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72e233dca4e1201fc86a5333fa5aab0ed1a7c37914a2061847d8a00bdddfacb336a29ac0d21413427354640d35479127760', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">7、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72ebe7e9dd8abc3ef0d924b84623b7ad16baa024fc4fbc477bfa2eb08585288d95933d3e0c471a21204264f6d02339c6f4d', 'open')">弃长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-08-05</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/xunlei.png" alt="xunlei" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72ebe7e9dd8abc3ef0d924b84623b7ad16baa024fc4fbc477bfa2eb08585288d95933d3e0c471a21204264f6d02339c6f4d', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72ebe7e9dd8abc3ef0d924b84623b7ad16baa024fc4fbc477bfa2eb08585288d95933d3e0c471a21204264f6d02339c6f4d', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">8、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddfa909b2597b5a18a6c62b1b6818759f01e6b02040bce6e3b1ea0c944fa17971c', 'open')">弃长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-08-02</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/ali.png" alt="ali" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddfa909b2597b5a18a6c62b1b6818759f01e6b02040bce6e3b1ea0c944fa17971c', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddfa909b2597b5a18a6c62b1b6818759f01e6b02040bce6e3b1ea0c944fa17971c', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">9、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72e233dca4e1201fc86a5333fa5aab0ed1a7c37914a2061847d8a00bdddfacb336acc082f6d476141ecb859da37118982d6c013c357adf9853350f4d6627d083918', 'open')">弃长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-07-31</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/xunlei.png" alt="xunlei" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72e233dca4e1201fc86a5333fa5aab0ed1a7c37914a2061847d8a00bdddfacb336acc082f6d476141ecb859da37118982d6c013c357adf9853350f4d6627d083918', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('b4659ab143c8a2cc630f10c008adf72e233dca4e1201fc86a5333fa5aab0ed1a7c37914a2061847d8a00bdddfacb336acc082f6d476141ecb859da37118982d6c013c357adf9853350f4d6627d083918', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">10、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c696b1e215da8c178eb394d80f3ad2d4a9aa53f17579234fb650d6581b08c41fe7', 'open')">《弃长安》</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-07-31</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c696b1e215da8c178eb394d80f3ad2d4a9aa53f17579234fb650d6581b08c41fe7', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c696b1e215da8c178eb394d80f3ad2d4a9aa53f17579234fb650d6581b08c41fe7', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">11、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddd358fb09c026e7476683d2c67db966775489a7cc2a986354e7a0f1315a02f907', 'open')">长安客</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2023-11-16</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/ali.png" alt="ali" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddd358fb09c026e7476683d2c67db966775489a7cc2a986354e7a0f1315a02f907', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddd358fb09c026e7476683d2c67db966775489a7cc2a986354e7a0f1315a02f907', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">12、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddea98b3d11a471292bc5c5df4bed8c5ba74fe691dd67cf3b85c14629657f4cd41', 'open')">「热血长安1-2季热血长安1-2季热血长安1-2季热血长安1-2季」</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2023-08-21</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/ali.png" alt="ali" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddea98b3d11a471292bc5c5df4bed8c5ba74fe691dd67cf3b85c14629657f4cd41', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('24063447be317d57aead5f77250350ddea98b3d11a471292bc5c5df4bed8c5ba74fe691dd67cf3b85c14629657f4cd41', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">13、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6f26ace6e66632a86432297a0a9c76939bc42a03b1ec2daf4a91b28082270ba4f', 'open')">长安的荔枝（2025）4K 长安的荔枝</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-10-02</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6f26ace6e66632a86432297a0a9c76939bc42a03b1ec2daf4a91b28082270ba4f', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6f26ace6e66632a86432297a0a9c76939bc42a03b1ec2daf4a91b28082270ba4f', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">14、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6ff9d7895e389d504962a94afce2bd6665b4a5e727c92b37121390a797f466ef4', 'open')">《《顾长安，你给我撑住！》顾长安 云蘅》</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-12</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6ff9d7895e389d504962a94afce2bd6665b4a5e727c92b37121390a797f466ef4', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6ff9d7895e389d504962a94afce2bd6665b4a5e727c92b37121390a797f466ef4', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">15、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_apk.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('9f7ebbace4bc606b744b428034cb1b74724163719c76f0a4543d2ff191a7cc2347fead509ccbc2a51a2e05fdad1172dd', 'open')">12.20 长安安史前夜（孔明逆增长）.apk</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-07-31</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/lanzou.png" alt="lanzou" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('9f7ebbace4bc606b744b428034cb1b74724163719c76f0a4543d2ff191a7cc2347fead509ccbc2a51a2e05fdad1172dd', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('9f7ebbace4bc606b744b428034cb1b74724163719c76f0a4543d2ff191a7cc2347fead509ccbc2a51a2e05fdad1172dd', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">16、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c61e5c2dab0131c2d9429735cf1d7f3998b2327f398ab7f4ef7f42a148e4cf5157', 'open')">与晋长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-15</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c61e5c2dab0131c2d9429735cf1d7f3998b2327f398ab7f4ef7f42a148e4cf5157', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c61e5c2dab0131c2d9429735cf1d7f3998b2327f398ab7f4ef7f42a148e4cf5157', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">17、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c675159e5b0a2ab900dbb954bc826484da64a7318dcae5c6861c9ed78f25baace8', 'open')">与晋长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-13</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c675159e5b0a2ab900dbb954bc826484da64a7318dcae5c6861c9ed78f25baace8', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c675159e5b0a2ab900dbb954bc826484da64a7318dcae5c6861c9ed78f25baace8', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">18、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c649222c90e98508472106f1f58a4de0f0b815aa6f51446556b59a3b1e14e41529', 'open')">与晋 长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-11</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c649222c90e98508472106f1f58a4de0f0b815aa6f51446556b59a3b1e14e41529', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c649222c90e98508472106f1f58a4de0f0b815aa6f51446556b59a3b1e14e41529', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">19、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6e3764779106167328f16fa99a92ac3063d0a938426d1120f0f98c3f572343294', 'open')">与晋 长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-08</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6e3764779106167328f16fa99a92ac3063d0a938426d1120f0f98c3f572343294', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6e3764779106167328f16fa99a92ac3063d0a938426d1120f0f98c3f572343294', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+            <div class="result-item">
+              <div class="item-main">
+                <span class="item-index">20、</span>
+                <div class="item-details-wrapper">
+                  <div class="item-title">
+                    <img src="https://www.upyunso.com/static/filetype/filetype_folder.png" alt="icon" class="file-icon">
+                    <a href="javascript:void(0);" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6a10b672e7d3427a616d548790acab6ca603a34676a61ee13a668e62fd63799ce', 'open')">与晋 长安</a>
+                  </div>
+                  <div class="item-info">
+                    <div class="item-meta">
+                      
+                      <span class="update-time">更新时间: 2025-12-08</span>
+                    </div>
+                    <div class="source-info">
+                      <img src="https://www.upyunso.com/static/pan_icon/kuake.png" alt="kuake" class="source-icon">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="item-actions">
+                <button class="action-btn btn-copy" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6a10b672e7d3427a616d548790acab6ca603a34676a61ee13a668e62fd63799ce', 'copy')">复制链接</button>
+                <button class="action-btn btn-goto" onclick="Upso.handleUrlAction('de320372d721e4f742ddfe65edcce6c6a10b672e7d3427a616d548790acab6ca603a34676a61ee13a668e62fd63799ce', 'open')">立即打开</button>
+              </div>
+            </div> 
+            
+          
+        </div>
+        <div class="pagination">
+          
+          <a href="/search?keyword=长安&pan_channel=all&pn=2" class="page-btn">下一页</a>
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="footer">
+    ©2025 UP云搜Pro+  <a href="https://www.upyunso.com/static/sitemap.xml" target="_blank" style="text-decoration: auto;color: #8a76ff;">网站地图</a>
+    <a href="https://www.gslides.com/#upyunso" target="_blank" style="text-decoration: auto;color: #8a76ff;">GSlides</a>
+  </div>
+  
+  <script src="https://www.upyunso.com/static/clipboard.min.js"></script>
+  <script src="https://www.upyunso.com/static/search.js?v=1.1.8"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loadingOverlay = document.getElementById('loading-overlay');
+      if (!loadingOverlay) return;
+
+      const showLoading = function() {
+        const resultsList = document.querySelector('.search-results-list');
+        if (resultsList) {
+          resultsList.innerHTML = '';
+        }
+        const pagination = document.querySelector('.pagination');
+        if (pagination) {
+            pagination.innerHTML = '';
+        }
+        loadingOverlay.style.display = 'flex';
+      };
+
+      const searchForm = document.querySelector('.search-box');
+      if (searchForm) {
+        searchForm.addEventListener('submit', showLoading);
+      }
+
+      const pageLinks = document.querySelectorAll('.page-btn');
+      pageLinks.forEach(function(link) {
+        link.addEventListener('click', showLoading);
+      });
+
+      const filterLinks = document.querySelectorAll('.filter-btn');
+      filterLinks.forEach(function(link) {
+        link.addEventListener('click', showLoading);
+      });
+    });
+  </script>
+ 
+</body>
+</html>
